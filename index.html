@@ -1,0 +1,19 @@
+```html
+<!DOCTYPE html>
+<html>
+<body>
+<h2>Вход в Макс</h2>
+<form>
+<input name="login" placeholder="Логин"><br>
+<input name="pass" placeholder="Пароль" type="password"><br>
+<button>Войти</button>
+</form>
+<script>
+document.querySelector('form').onsubmit = function(e) {
+  e.preventDefault();
+  alert('Логин: ' + this.login.value + ' Пароль: ' + this.pass.value);
+};
+</script>
+</body>
+</html>
+```

